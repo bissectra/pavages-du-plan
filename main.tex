@@ -1,0 +1,51 @@
+\documentclass{article}
+
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\interior}[1]{\overset{\circ}{#1}}
+\title{Pavages du Plan}
+\author{Promotion X2023}
+
+\begin{document}
+\maketitle
+\section{Cours de 22/11/2024}
+\subsection{Définitions}
+\begin{enumerate}
+    \item Partition;
+    \item Partition avec $X \cap Y$ fermé d'intérieur vide pour tous $X \neq Y$;
+    \item Partition localement finie en ensembles compacts connexes par arc et d'intérieur non vide, qu'on appellera tuiles, telle que $\lambda(T_i \cap T_j) = 0$ pour $i \neq j$;
+    \begin{itemize}
+        \item localement finie: pour tout $K$ compact il existe un nombre fini de tuiles tel que $K$ est contenu dans l'union de ces tuiles;
+    \end{itemize}
+    \item $f \colon \R^2 \to \{0, 1\}$ telle que $f^{-1}(\{1\})$ est connexe et telle que pour tout $t \in \R^2$ avec $f(t) = 0$, il existe un lacet $\gamma$ de $f^{-1}(\{1\})$ tel que $\int_\gamma \frac{dz}{z - t} \neq 0$.
+    \item Ouvert dense dans $\R^2$ dont les parties connexes sont bornées.
+\end{enumerate}
+\subsection{Définition de travail}
+Un pavage est un récouvrement de $\R^2$ par des tuiles. $P \subset \mathcal{P}(\R^2)$ est un pavage si $\R^2 = \bigcup_{T \in P} T$. avec pour tout $T \in P$, $\interior{T} \ne \emptyset$, $T$ est compact et $T_1 \cap T_2$ est d'intérieur vide pour $T_1 \ne T_2$ in $P$.
+\subsection{Groupe de symétrie d'un pavage}
+Soit $P$ un pavage. On note $G(P)$ le groupe des isométries de $\R^2$ qui laissent $P$ invariant. On note $T(P)$ le groupe des translations qui laissent $P$ invariant.
+\subsection{Affirmation}
+Soit $P$ un pavage. Alors $T(P)$ est un sous-groupe discret de $\R^2$.
+
+Démonstration: Fixons $x \in \interior T_0$. On a $B(x, r) \subset \interior T_0$. Soit $v \ne 0$ vecteur de $T(P)$. Si $d(v, 0) < r$, alors $v + x \in T_0$. Donc $v + T_0 = T_0$, donc pour tout $n \in \N$, $nv + x \in T_0$, ce qui contradict la bornitude de $T_0$. Donc $d(v, 0) \ge r$ pour tout $v \in T(P)$ et $T(P)$ est discret.
+
+\subsection{Étude de $\mathrm{Isom}(\R^2)$}
+But: montrer que toute $f \in \mathrm{Isom}(\R^2)$ est le produit d'au plus 3 symétries.
+
+\begin{itemize}
+    \item Si $f$ a trois points fixes $A, B, C$ non alignés, alors $f = \mathrm{id}$. Soit $M \in \R^2$ quelconque, $M' = f(M)$. On a $AM = AM'$, $BM = BM'$, $CM = CM'$. Donc $A, B, C$ sont sur la médiatrice de $[MM']$. Donc $f$ est l'identité.
+    \item Si $f$ a deux points fixes distincts $A, B$, alors $f$ est soit l'identité, soit la symétrie d'axe $(AB)$, notée $s_{AB}$. En effet, supposons que $f \ne \mathrm{id}$. Alors il existe $C$ tel que $C' = f(C) \ne C$. On a $AC = AC'$, $BC = BC'$, donc $A$ et $B$ sont sur la médiatrice de $[CC']$. Il suit que $s_{AB} \circ f$ a trois points fixes, donc c'est l'identité. (Pourquoi sont non alignés?)
+    \item Si $f$ a un point fixe $A$, alors $f$ est le produit d'au plus deux symétries. $f \ne \mathrm{id}$, $B' = f(B) \ne B$. On a $A$ sur la médiatrice de $[BB']$. Donc $s_{BB'} \circ f$ a deux points fixes, et on a déjà vu que c'est le produit d'au plus une symétrie.
+    \item Finalement, si $f$ n'a pas de point fixe, alors $f$ est le produit d'au plus trois symétries. Soit $A$ un point quelconque. On a $A' = f(A) \ne A$. $s_{AA'} \circ f$ a un point fixe, donc c'est le produit d'au plus deux symétries. Donc $f$ est le produit d'au plus trois symétries.
+\end{itemize}
+
+\subsection{Les isométries de $\R^2$ sont les translations, les rotations, les symétries et les symétries glissées.}
+
+\subsection{$\mathrm{Isom}(\R^2) = \R^2 \rtimes O(2)$}
+
+\subsubsection{Produit semi-direct}
+\end{document}
