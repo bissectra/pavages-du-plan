@@ -1,7 +1,5 @@
 \documentclass{article}
 
-\usepackage[a4paper]{geometry}
-
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{amsmath, amssymb, amsthm, mathtools}
@@ -14,41 +12,26 @@
 \setlength{\parskip}{1em}
 
 \begin{document}
-
 \begin{thm}
-Soit \( E \subset \R^n \) un sous-espace vectoriel de dimension \( m \leq n \). Soit \( G \leq E \) un sous-groupe discret de \( E \). Alors, \( G \) est isomorphe à \( \Z^r \) pour un certain \( r \leq m \).
+    Soit \( E \subset \R^n \) un sous-espace vectoriel de dimension \( m \leq n \). Soit \( G \leq E \) un sous-groupe discret de \( E \). Alors, \( G \) est isomorphe à \( \Z^r \) pour un certain \( r \leq m \).
 \end{thm}
 
 \begin{proof}
-Si \( G = \{0\} \), alors l'affirmation est triviale avec \( r = 0 \). Supposons donc que \( G \neq \{0\} \).
+    On démontre par récurrence en $m = \dim E$. Si $m = 0$, alors $E = \{0\}$ et $G = \{0\}$, donc $G \cong \Z^0$. Sinon, supposons que le théorème est vrai pour tout sous-espace vectoriel de dimension inférieure à $m$. Si $G = \{0\}$, alors $G \cong \Z^0$. Supposons donc que $G \neq \{0\}$. Définissons
+    \[
+    a \coloneq \inf \{ |g| \mid g \in G \setminus \{0\} \}.
+    \]
+    Comme $G$ est discret, il existe un $\varepsilon > 0$ tel que $B(0, \varepsilon) \cap G = \{0\}$. Par conséquent, $a \geq \varepsilon > 0$. Pour $g, h \in G$ distincts, les boules $B(g, a/2)$ et $B(h, a/2)$ sont disjointes. Cela signifie que $(G \setminus \{0\}) \cap B(0, 2a)$ est fini et non vide. On peut donc trouver un élément $\omega \in G$ tel que $|\omega| = a$.
+    
+    On affirme que $G \cap \R \omega = \Z \omega$. En effet, si $g \in G \cap \R \omega$, alors $g = \lambda \omega$ pour un certain $\lambda \in \R$. Puis, $g' = g - \lfloor \lambda \rfloor \omega \in G$ et $|g'| < a$, donc $g' = 0$, ce qui implique $g = \lfloor \lambda \rfloor \omega \in \Z \omega$.
 
-Définissons
-\[
-a \coloneq \inf \{ |g| \mid g \in G \setminus \{0\} \}.
-\]
-Comme \( G \) est discret, il existe un \(\varepsilon > 0\) tel que \( B(0, \varepsilon) \cap G = \{0\} \). Par conséquent, \( a \geq \varepsilon > 0 \).
+    Soit $F$ le complément orthogonal de $\omega$ dans $E$, et $\pi \colon E \to F$ la projection orthogonale sur $F$. On affirme que $\pi(G)$ est discret. Supposons le contraire. Alors, il existe une suite infinie d'éléments distincts $h_n \in \pi(G)$ avec $|h_n| < a$. Chaque $h_n$ provient d'un élément $g_n \in G$ tel que $\pi(g_n) = h_n$. Chaque $g_n$ peut s'écrire $g_n = \lambda_n \omega + h_n$. Considérant $g_n' = g_n - \lfloor \lambda_n \rfloor \omega \in G$ avec $|g_n'| < 2a$, nous obtiendrons une suite infinie d'éléments distincts dans $B(0, 2a)$, ce qui est impossible. Donc, $\pi(G)$ est discret.
 
-Pour \( g, h \in G \) distincts, les boules \( B(g, a/2) \) et \( B(h, a/2) \) sont disjointes. Cela signifie que \( (G \setminus \{0\}) \cap B(0, 2a) \) est fini et non vide. On peut donc trouver un élément \( \omega \in G \) tel que \( |\omega| = a \).
+    Par l'hypothèse de récurrence, $\pi(G)$ est isomorphe à $\Z^r$ pour un certain $r \leq m - 1$. Soit $\varphi \colon \pi(G) \to \Z^r$ un isomorphisme, et soient $\tilde \omega_1, \ldots, \tilde \omega_r \in \pi(G)$ tels que $\varphi(\tilde \omega_i) = e_i$, où $(e_1, \ldots, e_r)$ est la base canonique de $\Z^r$. Soient $\omega_1, \ldots, \omega_r \in G$ tels que $\pi(\omega_i) = \tilde \omega_i$. Considérons $\psi \colon \pi(G) \to G$ l'homomorphisme défini par $\psi(\tilde \omega_i) = \omega_i$. On observe que $\pi(\psi(\tilde \omega_i)) = \tilde \omega_i$ pour tout $i$, ce qui montre que $\pi \circ \psi = \operatorname{id}_{\pi(G)}$.
 
-Nous affirmons que \( G \cap \R \omega = \Z \omega \). En effet, si \( g \in G \cap \R \omega \), alors \( g = \lambda \omega \) pour un certain \( \lambda \in \R \). Puis, \( g' = g - \lfloor \lambda \rfloor \omega \in G \) et \( |g'| < a \), donc \( g' = 0 \), ce qui implique \( g = \lfloor \lambda \rfloor \omega \in \Z \omega \).
+    De plus, pour tout $g \in G$, on a $\pi(\psi(\pi(g))) = \pi(g)$, donc $\psi(\pi(g)) - g \in \ker \pi = \R \omega$. Comme $\psi(\pi(g)) - g \in G$, on a $\psi(\pi(g)) - g \in G \cap \R \omega = \Z \omega$, donc $g = \psi(\pi(g)) + x \omega$ pour un certain $x \in \Z$. Ce $x$ est unique, car si $g = \psi(\pi(g)) + x \omega = \psi(\pi(g)) + y \omega$, alors $x\omega = y\omega$, donc $x = y$.
 
-Soit \( F \) le complément orthogonal de \( \omega \) dans \( E \), et \( \pi \colon E \to F \) la projection orthogonale sur \( F \). Nous affirmons que \( \pi(G) \) est discret.
-
-Supposons le contraire. Alors, il existe une suite infinie \( h_n \in \pi(G) \) avec \( |h_n| < a \). Chaque \( h_n \) provient d'un élément \( g_n \in G \) tel que \( \pi(g_n) = h_n \). Chaque \( g_n \) peut s'écrire \( g_n = \lambda_n \omega + h_n \).
-
-Considérant \( g_n' = g_n - \lfloor \lambda_n \rfloor \omega \in G \) avec \( |g_n'| < 2a \), nous obtiendrons une suite infinie d'éléments distincts dans \( B(0, 2a) \), ce qui est impossible. Donc, \( \pi(G) \) est discret.
-
-Par l'hypothèse de récurrence, \( \pi(G) \) est isomorphe à \( \Z^r \) pour un certain \( r \leq m - 1 \). Soit \( \varphi \colon \pi(G) \to \Z^r \) un isomorphisme, et soient \( \tilde \omega_1, \ldots, \tilde \omega_r \in \pi(G) \) tels que \( \varphi(\tilde \omega_i) = e_i \), où \( (e_1, \ldots, e_r) \) est la base canonique de \( \Z^r \). Soient \( \omega_1, \ldots, \omega_r \in G \) tels que \( \pi(\omega_i) = \tilde \omega_i \). Consdiérons $\psi \colon \pi(G) \to G$ l'homomorphisme défini par $\psi(\tilde \omega_i) = \omega_i$. On observe que $\pi(\psi(\tilde \omega_i)) = \tilde \omega_i$ pour tout $i$, ce qui montre que $\pi \circ \psi = \operatorname{id}_{\pi(G)}$.
-
-De plus, pour tout $g \in G$, on a $\pi(\psi(\pi(g))) = \pi(g)$, donc $\psi(\pi(g)) - g \in \ker \pi = \R \omega$. Comme $\psi(\pi(g)) - g \in G$, on a $\psi(\pi(g)) - g \in G \cap \R \omega = \Z \omega$, donc $g = \psi(\pi(g)) + x \omega$ pour un certain $x \in \Z$. Ce $x$ est unique, car si $g = \psi(\pi(g)) + x \omega = \psi(\pi(g)) + y \omega$, alors $x\omega = y\omega$, donc $x = y$.
-
-Définissons alors l'application \( \Phi \colon G \to \Z^r \times \Z \) par \( \Phi(g) = (\varphi(\pi(g)), x) \), où \( g = \psi(\pi(g)) + x \omega \). Il est facile de vérifier que \( \Phi \) est un isomorphisme.
-
-En effet, $\Phi$ est un homomorphisme, car pour tout $g, h \in G$, on a $g = \psi(\pi(g)) + x \omega$ et $h = \psi(\pi(h)) + y \omega$, donc $g + h = (\psi(\pi(g)) + \psi(\pi(h))) + (x + y) \omega = \psi(\pi(g + h)) + (x + y) \omega$, ce qui montre que $\Phi(g + h) = (\varphi(\pi(g + h)), x + y) = (\varphi(\pi(g)) + \varphi(\pi(h)), x + y) = (\varphi(\pi(g)), x) + (\varphi(\pi(h)), y) = \Phi(g) + \Phi(h)$.
-
-$\Phi$ est injective, car si $\Phi(g) = 0$, alors $\varphi(\pi(g)) = 0$ et $x = 0$. Comme $\varphi$ est injective, $\pi(g) = 0$, donc $g = \psi(\pi(g)) + x \omega = 0 + 0 = 0$.
-
-$\Phi$ est surjective, car pour tout $(z, k) \in \Z^r \times \Z$, il existe $h \in \pi(G)$ tel que $\varphi(h) = z$. Il existe donc $g \in G$ tel que $\pi(g) = h$. On a $g = \psi(\pi(g)) + x \omega$ pour un certain $x \in \Z$. En ajoutant des multiples entiers de $\omega$, on peut trouver $g' = \psi(\pi(g)) + x' \omega$ tel que $x' = k$. Donc, $\Phi(g') = (z, k)$, ce qui montre que $\Phi$ est surjective.
+    Définissons alors l'application $\Phi \colon G \to \Z^r \times \Z$ par $\Phi(g) = (\varphi(\pi(g)), x)$, où $g = \psi(\pi(g)) + x \omega$. Il est facile de vérifier que $\Phi$ est un isomorphisme.
 \end{proof}
 
 \end{document}
