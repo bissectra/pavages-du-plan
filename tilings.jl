@@ -314,6 +314,25 @@ function dual(t::Tiling)
     return dual
 end
 
+dual(t::Tiling, n::Int) = n == 0 ? t : dual(dual(t), n - 1)
+
+using Colors, Random
+Random.seed!(0)
+
+function plot(t::Tiling, n::Int)
+	ts = [t]
+	for i in 1:n
+		push!(ts, dual(ts[end]))
+	end
+	fig, ax = plot(t, color = RGBA(0, 0, 0, 0))
+	for i in n+1:-1:1
+		color = rand(RGB)
+		color = RGBA(color.r, color.g, color.b, (i / (n + 1)))
+		plot(ts[i], ax = ax, color = color)
+	end
+	return fig, ax
+end
+
 t = Tiling()
 A = Point(0, 0)
 B = Point(1, 0)
