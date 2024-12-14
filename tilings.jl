@@ -156,6 +156,7 @@ function plot(t::Tiling)
 
     for (i, adj) in t.adj
         for j in adj
+            i < j || continue
             lines!(ax, [pts[i], pts[j]], color = :black)
         end
     end
