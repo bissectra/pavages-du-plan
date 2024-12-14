@@ -178,9 +178,11 @@ t = Tiling()
 A = Point(0, 0)
 B = Point(1, 0)
 
-rng(x,y,n) = rngon!(t, x, y, n)
-tri(x=A,y=B) = r(x,y,3)
-squ(x=A,y=B) = r(x,y,4)
-hex(x=A,y=B) = r(x,y,6)
-oct(x=A,y=B) = r(x,y,8)
-dod(x,y) = r(x,y,12)
+rng(x, y, n) = rngon!(t, x, y, n)
+tri(x = A, y = B) = rng(x, y, 3)
+squ(x = A, y = B) = rng(x, y, 4)
+hex(x = A, y = B) = rng(x, y, 6)
+oct(x = A, y = B) = rng(x, y, 8)
+dod(x = A, y = B) = rng(x, y, 12)
+
+p(x) = t.points[x]
