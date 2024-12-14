@@ -171,16 +171,16 @@ end
 
 using Makie, GLMakie
 
-function plot(t::Tiling; ax = nothing, fig=nothing, show_points = false, show_labels = false, color = :black)
-    if fig == nothing
-        fig = Figure(size = (1200, 1200))
-    end
+function plot(t::Tiling; ax = nothing, fig = nothing, show_points = false, show_labels = false, color = :black)
+	if fig == nothing
+		fig = Figure(size = (1200, 1200))
+	end
 
-    if ax == nothing
-        ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
-        hidedecorations!(ax)
-        hidespines!(ax)
-    end
+	if ax == nothing
+		ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
+		hidedecorations!(ax)
+		hidespines!(ax)
+	end
 
 	pts = Dict(i => (real(p), imag(p)) for (i, p) in t.points)
 
@@ -230,54 +230,54 @@ end
 reflection(z, p, q) = p + (q - p) * conj((z - p) / (q - p))
 
 function next(t::Tiling, i::Int, j::Int)
-    # let F be the face with edge i -> j. return the next edge in F
-    # find i in j's adjacency list
-    for k in 1:length(t.adj[j])
-        if t.adj[j][k] == i
-            return t.adj[j][mod1(k - 1, length(t.adj[j]))]
-        end
-    end
-    error("edge $i -> $j not found")
+	# let F be the face with edge i -> j. return the next edge in F
+	# find i in j's adjacency list
+	for k in 1:length(t.adj[j])
+		if t.adj[j][k] == i
+			return t.adj[j][mod1(k - 1, length(t.adj[j]))]
+		end
+	end
+	error("edge $i -> $j not found")
 end
 
 function face(t::Tiling, i::Int, j::Int)
-    # let F be the face with edge i -> j. return the list of edges in F
-    face = [i, j]
-    while true
-        k = next(t, face[end - 1], face[end])
-        if k == i
-            break
-        end
-        push!(face, k)
-    end
-    # rotate to begin with the smallest index
-    i = argmin(face)
-    return vcat(face[i:end], face[1:i-1])
+	# let F be the face with edge i -> j. return the list of edges in F
+	face = [i, j]
+	while true
+		k = next(t, face[end-1], face[end])
+		if k == i
+			break
+		end
+		push!(face, k)
+	end
+	# rotate to begin with the smallest index
+	i = argmin(face)
+	return vcat(face[i:end], face[1:i-1])
 end
 
 function faces(t::Tiling)
-    faces = Set{Vector{Int}}()
-    for (i, adj) in t.adj
-        for j in adj
-            i < j || continue
-            push!(faces, face(t, i, j))
-        end
-    end
-    return sort(collect(faces), by = x -> (length(x), x))
+	faces = Set{Vector{Int}}()
+	for (i, adj) in t.adj
+		for j in adj
+			i < j || continue
+			push!(faces, face(t, i, j))
+		end
+	end
+	return sort(collect(faces), by = x -> (length(x), x))
 end
 
 function gcentroid(ps::Vector{Point})
-    xs = [real(p) for p in ps]
+	xs = [real(p) for p in ps]
 	ys = [imag(p) for p in ps]
 	push!(xs, xs[1])
 	push!(ys, ys[1])
 	area = 0
 	cx = 0
 	cy = 0
-	for i in 1:length(xs) - 1
-		area += xs[i] * ys[i + 1] - xs[i + 1] * ys[i]
-		cx += (xs[i] + xs[i + 1]) * (xs[i] * ys[i + 1] - xs[i + 1] * ys[i])
-		cy += (ys[i] + ys[i + 1]) * (xs[i] * ys[i + 1] - xs[i + 1] * ys[i])
+	for i in 1:length(xs)-1
+		area += xs[i] * ys[i+1] - xs[i+1] * ys[i]
+		cx += (xs[i] + xs[i+1]) * (xs[i] * ys[i+1] - xs[i+1] * ys[i])
+		cy += (ys[i] + ys[i+1]) * (xs[i] * ys[i+1] - xs[i+1] * ys[i])
 	end
 	area /= 2
 	cx /= 6 * area
@@ -292,26 +292,26 @@ end
 centroid = acentroid
 
 function dual(t::Tiling)
-    # return the dual of the tiling
-    outer_face = faces(t)[end]
-    dual = Tiling()
-    for (u, v) in edges(t)
-        f1 = face(t, u, v)
-        f2 = face(t, v, u)
-        if f1 == outer_face || f2 == outer_face
-            continue
-        end
-        add!(dual, centroid([t.points[i] for i in f1]), centroid([t.points[i] for i in f2]))
-    end
+	# return the dual of the tiling
+	outer_face = faces(t)[end]
+	dual = Tiling()
+	for (u, v) in edges(t)
+		f1 = face(t, u, v)
+		f2 = face(t, v, u)
+		if f1 == outer_face || f2 == outer_face
+			continue
+		end
+		add!(dual, centroid([t.points[i] for i in f1]), centroid([t.points[i] for i in f2]))
+	end
 
-    # remove edges with only one neighbor
-    for (i, adj) in copy(dual.adj)
-        if length(adj) == 1
-            delete!(dual, i)
-        end
-    end
+	# remove edges with only one neighbor
+	for (i, adj) in copy(dual.adj)
+		if length(adj) == 1
+			delete!(dual, i)
+		end
+	end
 
-    return dual
+	return dual
 end
 
 dual(t::Tiling, n::Int) = n == 0 ? t : dual(dual(t), n - 1)
