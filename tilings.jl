@@ -114,6 +114,17 @@ function Base.delete!(tiling::Tiling, p::Point, q::Point)
     return
 end
 
+function rngon!(t::Tiling, p::Point, q::Point, n::Int)
+    # add an n-gon to the tiling with vertices p and q
+    # return the indices of the vertices
+    i, j = add!(t, p, q)
+    p, q = t.points[i], t.points[j]
+    for k in 1:n-1
+        p, q = q, q + (q - p) * cis(2π / n)
+        add!(t, p, q)
+    end
+end
+
 function Base.show(io::IO, t::Tiling)
     println(io, "Tiling")
     println(io, "  points:")
