@@ -148,14 +148,14 @@ using Makie, GLMakie
 
 function plot(t::Tiling; ax = nothing, fig=nothing, show_points = false, show_labels = false, color = :black)
     if fig == nothing
-	fig = Figure(size = (1200, 1200))
-end
+        fig = Figure(size = (1200, 1200))
+    end
 
     if ax == nothing
-	ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
-	hidedecorations!(ax)
-	hidespines!(ax)
-end
+        ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
+        hidedecorations!(ax)
+        hidespines!(ax)
+    end
 
 	pts = Dict(i => (real(p), imag(p)) for (i, p) in t.points)
 
@@ -240,6 +240,25 @@ function faces(t::Tiling)
         end
     end
     return sort(collect(faces), by = x -> (length(x), x))
+end
+
+function centroid(ps::Vector{Point})
+    return sum(ps) / length(ps)
+end
+
+function dual(t::Tiling)
+    # return the dual of the tiling
+    outer_face = faces(t)[end]
+    dual = Tiling()
+    for (u, v) in edges(t)
+        f1 = face(t, u, v)
+        f2 = face(t, v, u)
+        if f1 == outer_face || f2 == outer_face
+            continue
+        end
+        add!(dual, centroid([t.points[i] for i in f1]), centroid([t.points[i] for i in f2]))
+    end
+    return dual
 end
 
 t = Tiling()
