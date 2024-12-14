@@ -242,9 +242,30 @@ function faces(t::Tiling)
     return sort(collect(faces), by = x -> (length(x), x))
 end
 
-function centroid(ps::Vector{Point})
+function gcentroid(ps::Vector{Point})
+    xs = [real(p) for p in ps]
+	ys = [imag(p) for p in ps]
+	push!(xs, xs[1])
+	push!(ys, ys[1])
+	area = 0
+	cx = 0
+	cy = 0
+	for i in 1:length(xs) - 1
+		area += xs[i] * ys[i + 1] - xs[i + 1] * ys[i]
+		cx += (xs[i] + xs[i + 1]) * (xs[i] * ys[i + 1] - xs[i + 1] * ys[i])
+		cy += (ys[i] + ys[i + 1]) * (xs[i] * ys[i + 1] - xs[i + 1] * ys[i])
+	end
+	area /= 2
+	cx /= 6 * area
+	cy /= 6 * area
+	return Point(cx, cy)
+end
+
+function acentroid(ps::Vector{Point})
     return sum(ps) / length(ps)
 end
+
+centroid = acentroid
 
 function dual(t::Tiling)
     # return the dual of the tiling
