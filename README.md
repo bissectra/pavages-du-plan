@@ -7,13 +7,13 @@ See the [figures](figures) directory for the figures generated in the [examples]
 
 ![Dodecagon](figures/dodecagon.png)
 
-### Figure 2: Quadrilateral
-
-![Quadrilateral](figures/quadrilateral.png)
-
-### Figure 3: Triangle
+### Figure 2: Triangle
 
 ![Triangle](figures/triangle.png)
+
+### Figure 3: Quadrilateral
+
+![Quadrilateral](figures/quadrilateral.png)
 
 ### Figure 4: Xiaowei's Tiling
 
