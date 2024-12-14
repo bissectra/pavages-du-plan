@@ -119,10 +119,13 @@ function rngon!(t::Tiling, p::Point, q::Point, n::Int)
     # return the indices of the vertices
     i, j = add!(t, p, q)
     p, q = t.points[i], t.points[j]
+    points = [p]
     for k in 1:n-1
         p, q = q, q + (q - p) * cis(2π / n)
         add!(t, p, q)
+        push!(points, p)
     end
+    return points
 end
 
 function Base.show(io::IO, t::Tiling)
