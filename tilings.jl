@@ -289,9 +289,7 @@ function acentroid(ps::Vector{Point})
 	return sum(ps) / length(ps)
 end
 
-centroid = acentroid
-
-function dual(t::Tiling)
+function dual(t::Tiling, centroid = gcentroid)
 	# return the dual of the tiling
 	outer_face = faces(t)[end]
 	dual = Tiling()
