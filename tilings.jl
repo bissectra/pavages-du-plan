@@ -146,8 +146,8 @@ end
 
 using Makie, GLMakie
 
-function plot(t::Tiling)
-    fig = Figure(size = (800, 800))
+function plot(t::Tiling; show_points = false, show_labels = false)
+	fig = Figure(size = (1200, 1200))
     ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
     hidedecorations!(ax)
     hidespines!(ax)
@@ -161,11 +161,15 @@ function plot(t::Tiling)
         end
     end
 
+	if show_points
+		scatter!(ax, collect(values(pts)), color = :red)
+	end
+
+	if show_labels
     for (i, p) in pts
         text!(ax, p, text = string(i), color = :black)
     end
-
-    scatter!(ax, collect(values(pts)), color = :red)
+	end
 
     return fig
 end
