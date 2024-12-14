@@ -234,7 +234,7 @@ function faces(t::Tiling)
             push!(faces, face(t, i, j))
         end
     end
-    return faces
+    return sort(collect(faces), by = x -> (length(x), x))
 end
 
 t = Tiling()
