@@ -216,7 +216,7 @@ function edges(t::Tiling)
 end
 
 function add_transformation!(t::Tiling, f)
-		new_edges = [f(t.points[i]) => f(t.points[j]) for (i, j) in edges(t)]
+	new_edges = [f(t.points[i]) => f(t.points[j]) for (i, j) in edges(t)]
 	new_points = [f(t.points[i]) for i in keys(t.points)]
 	for (p, q) in new_edges
 		add!(t, p, q)
@@ -286,7 +286,7 @@ function gcentroid(ps::Vector{Point})
 end
 
 function acentroid(ps::Vector{Point})
-    return sum(ps) / length(ps)
+	return sum(ps) / length(ps)
 end
 
 centroid = acentroid
