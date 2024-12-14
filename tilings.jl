@@ -122,6 +122,27 @@ function rngon!(t::Tiling, p::Int, q::Int, n::Int)
 	return rngon!(t, t.points[p], t.points[q], n)
 end
 
+function polygon!(t::Tiling, points::Vector{Point})
+	# add a polygon to the tiling with vertices points
+	# return the indices of the vertices
+	is = [add!(t, p) for p in points]
+	for i in 1:length(is)
+		j = mod1(i + 1, length(is))
+		add!(t, t.points[is[i]], t.points[is[j]])
+	end
+	return is
+end
+
+function polygon!(t::Tiling, is::Vector{Int})
+	# add a polygon to the tiling with vertices is
+	# return the indices of the vertices
+	for i in 1:length(is)
+		j = mod1(i + 1, length(is))
+		add!(t, is[i], is[j])
+	end
+	return is
+end
+
 function rngon!(t::Tiling, p::Point, q::Point, n::Int)
 	# add an n-gon to the tiling with vertices p and q
 	# return the indices of the vertices
