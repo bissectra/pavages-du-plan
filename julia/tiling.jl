@@ -141,8 +141,8 @@ function faces(adjs)
 			(u, v) in visited && continue
 			f = face(adjs, (u, v))
 			push!(ans, f)
-			for i in 1:length(f) - 1
-				push!(visited, (f[i], f[i + 1]))
+			for i in 1:length(f)-1
+				push!(visited, (f[i], f[i+1]))
 			end
 			push!(visited, (f[end], f[1]))
 		end
@@ -151,6 +151,19 @@ function faces(adjs)
 	sort!(ans, by = length)
 	# pop!(ans)
 	return ans
+end
+
+function centroid(points)
+	x = [real(p) for p in points]
+	y = [imag(p) for p in points]
+	push!(x, x[1])
+	push!(y, y[1])
+	n = length(points)
+
+	A = 0.5 * sum(x[i] * y[i+1] - x[i+1] * y[i] for i in 1:n)
+	Cx = 1 / (6 * A) * sum((x[i] + x[i+1]) * (x[i] * y[i+1] - x[i+1] * y[i]) for i in 1:n)
+	Cy = 1 / (6 * A) * sum((y[i] + y[i+1]) * (x[i] * y[i+1] - x[i+1] * y[i]) for i in 1:n)
+	return Cx + im * Cy
 end
 
 function dual(tiling::Tiling)
@@ -167,12 +180,21 @@ function dual(tiling::Tiling)
 			continue
 		end
 
-		c1 = sum(tiling.points[p] for p in f1) / length(f1)
-		c2 = sum(tiling.points[p] for p in f2) / length(f2)
+		c1 = centroid([tiling.points[i] for i in f1])
+		c2 = centroid([tiling.points[i] for i in f2])
 
 		link!(dual_tiling, c1, c2)
 	end
-	
+
+	# for each edge, verify that the corresponding face has at least 3 vertices. Otherwise, remove the edge.
+	dajds = adjlist(dual_tiling)
+	for (u, v) in copy(dual_tiling.edges)
+		f1 = face(dajds, (u, v))
+		f2 = face(dajds, (v, u))
+		if length(f1) < 3 || length(f2) < 3
+			delete!(dual_tiling.edges, (u, v))
+		end
+	end
 	return dual_tiling
 end
 
