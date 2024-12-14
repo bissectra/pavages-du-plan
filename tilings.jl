@@ -258,6 +258,14 @@ function dual(t::Tiling)
         end
         add!(dual, centroid([t.points[i] for i in f1]), centroid([t.points[i] for i in f2]))
     end
+
+    # remove edges with only one neighbor
+    for (i, adj) in copy(dual.adj)
+        if length(adj) == 1
+            delete!(dual, i)
+        end
+    end
+
     return dual
 end
 
