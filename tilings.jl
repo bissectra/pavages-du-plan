@@ -70,6 +70,10 @@ function add!(tiling::Tiling, p::Point, q::Point)
 	return i, j
 end
 
+function add!(tiling::Tiling, i::Int, j::Int)
+	add!(tiling, tiling.points[i], tiling.points[j])
+end
+
 function Base.delete!(tiling::Tiling, p::Point, q::Point)
 	# remove edge p-q from the tiling
 	# find the indices of p and q
