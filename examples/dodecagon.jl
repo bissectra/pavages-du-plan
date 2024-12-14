@@ -1,6 +1,6 @@
 include("../tilings.jl")
 
-dod()
+rng(A, B, 12)
 
 fig, ax = plot(t)
 display(fig)
