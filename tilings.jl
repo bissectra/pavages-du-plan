@@ -146,18 +146,23 @@ end
 
 using Makie, GLMakie
 
-function plot(t::Tiling; show_points = false, show_labels = false)
+function plot(t::Tiling; ax = nothing, fig=nothing, show_points = false, show_labels = false, color = :black)
+    if fig == nothing
 	fig = Figure(size = (1200, 1200))
+end
+
+    if ax == nothing
 	ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
 	hidedecorations!(ax)
 	hidespines!(ax)
+end
 
 	pts = Dict(i => (real(p), imag(p)) for (i, p) in t.points)
 
 	for (i, adj) in t.adj
 		for j in adj
 			i < j || continue
-			lines!(ax, [pts[i], pts[j]], color = :black)
+			lines!(ax, [pts[i], pts[j]], color = color)
 		end
 	end
 
@@ -171,7 +176,7 @@ function plot(t::Tiling; show_points = false, show_labels = false)
 		end
 	end
 
-	return fig
+	return fig, ax
 end
 
 function edges(t::Tiling)
