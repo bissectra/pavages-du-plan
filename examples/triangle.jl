@@ -10,5 +10,5 @@ for i ∈ 1:5
 	add_transformation!(t, p -> p + (C - A))
 end
 
-fig, ax = plot(t)
+fig, ax = plot(t, 3)
 display(fig)
