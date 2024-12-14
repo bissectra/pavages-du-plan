@@ -144,7 +144,9 @@ using Makie, GLMakie
 
 function plot(t::Tiling)
     fig = Figure(size = (800, 800))
-    ax = Axis(fig[1, 1], aspect = DataAspect())
+    ax = Axis(fig[1, 1], aspect = DataAspect(), xgridvisible = false, ygridvisible = false)
+    hidedecorations!(ax)
+    hidespines!(ax)
 
     pts = Dict(i => (real(p), imag(p)) for (i, p) in t.points)
 
