@@ -200,6 +200,43 @@ end
 # reflection by the line through p and q
 reflection(z, p, q) = p + (q - p) * conj((z - p) / (q - p))
 
+function next(t::Tiling, i::Int, j::Int)
+    # let F be the face with edge i -> j. return the next edge in F
+    # find i in j's adjacency list
+    for k in 1:length(t.adj[j])
+        if t.adj[j][k] == i
+            return t.adj[j][mod1(k - 1, length(t.adj[j]))]
+        end
+    end
+    error("edge $i -> $j not found")
+end
+
+function face(t::Tiling, i::Int, j::Int)
+    # let F be the face with edge i -> j. return the list of edges in F
+    face = [i, j]
+    while true
+        k = next(t, face[end - 1], face[end])
+        if k == i
+            break
+        end
+        push!(face, k)
+    end
+    # rotate to begin with the smallest index
+    i = argmin(face)
+    return vcat(face[i:end], face[1:i-1])
+end
+
+function faces(t::Tiling)
+    faces = Set{Vector{Int}}()
+    for (i, adj) in t.adj
+        for j in adj
+            i < j || continue
+            push!(faces, face(t, i, j))
+        end
+    end
+    return faces
+end
+
 t = Tiling()
 A = Point(0, 0)
 B = Point(1, 0)
