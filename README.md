@@ -1,3 +1,10 @@
+## Usage
+
+To run the examples, simply `include` them in Julia:
+
+```julia
+include("examples/example.jl")
+```
 
 ## Figures
 
