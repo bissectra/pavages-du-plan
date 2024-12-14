@@ -191,8 +191,7 @@ function edges(t::Tiling)
 end
 
 function add_transformation!(t::Tiling, f)
-	# add all points and edges of the tiling rotated by angle around p
-	new_edges = [f(t.points[i]) => f(t.points[j]) for (i, j) in edges(t)]
+		new_edges = [f(t.points[i]) => f(t.points[j]) for (i, j) in edges(t)]
 	new_points = [f(t.points[i]) for i in keys(t.points)]
 	for (p, q) in new_edges
 		add!(t, p, q)
